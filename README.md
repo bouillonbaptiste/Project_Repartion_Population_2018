@@ -1,9 +1,8 @@
-# Project_Repartion_Population_2018
-Project concerning the repartition of the population in France.
+# Projet_Repartion_Population_2018
+Un projet qui concerne la répartition de la population en France 
 
-Principaly the code concerning a project over the French population.
-The files .py are the treatment of the dataset.
-Functions are in FONCTIONS_Baptiste.py and clean-up in the orther .py files.
-Projet_R.Rmd is the R part of the project with code and comments. In french, some infos wiped out.
+Contient le code principal servant à la remise en forme des données ainsi qu'au traitement de celles-ci.
+les fihiers .py sont surtout liés à la remodélisation les données.
+Projet_R.Rmd est la partie R du projet, sorties commentées.
+Les données sont disponibles à l'adresse suivante : https://www.data.gouv.fr/fr/datasets/
 
-Enjoy reading !

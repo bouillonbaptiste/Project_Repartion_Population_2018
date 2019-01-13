@@ -1,5 +1,5 @@
 ---
-title: "Projet - Répartition de la population française"
+title: "Projet - RÃ©partition de la population franÃ§aise"
 author: "Bouillon Baptiste"
 output: pdf_document
 ---
@@ -24,18 +24,18 @@ library(neuralnet)
 ```
 
 ```{r fonctions, echo=FALSE, message=FALSE, warning=FALSE}
-# Recup.pire.coef : fonction qui rend le coeficient avec la p-value la plus petite parmis un ensemble de coeficients d'une régression linéaire multiple
+# Recup.pire.coef : fonction qui rend le coeficient avec la p-value la plus petite parmis un ensemble de coeficients d'une rÃ©gression linÃ©aire multiple
 # @ parmas : 
 #   data.summary : un summary d'un lm
 # @return :
 #   return : le pire coeficient
 Recup.pire.coef <- function(data.summary){
-  # on supprime tous les coefficients avec une p-value supérieure à 0.05
+  # on supprime tous les coefficients avec une p-value supÃ©rieure Ã  0.05
   sum_model <- data.summary[data.summary$`Pr(>|t|)`>0.05,]
-  # et on récupère le nom des coefficients
+  # et on rÃ©cupÃ¨re le nom des coefficients
   retour <- rownames(sum_model)
-  if(length(retour)==0){ # si tous les coefficients ont une p-value inférieure à 0.05 ...
-    # on récupère le coefficient avec la p-value la plus grande
+  if(length(retour)==0){ # si tous les coefficients ont une p-value infÃ©rieure Ã  0.05 ...
+    # on rÃ©cupÃ¨re le coefficient avec la p-value la plus grande
     sum_model <- data.summary[order(data.summary$`Pr(>|t|)`),]
     retour <- rownames(sum_model[nrow(sum_model),])
   }
@@ -48,12 +48,12 @@ Recup.pire.coef <- function(data.summary){
 #   return : le pire coeficient
 Recup.pire.coef_log <- function(data.summary){
   
-  # on supprime tous les coefficients avec une p-value supérieure à 0.05
+  # on supprime tous les coefficients avec une p-value supÃ©rieure Ã  0.05
   sum_model <- data.summary[data.summary$`Pr(>|z|)`>0.05,]
-  # et on récupère le nom des coefficients
+  # et on rÃ©cupÃ¨re le nom des coefficients
   retour <- rownames(sum_model)
-  if(length(retour)==0){ # si tous les coefficients ont une p-value inférieure à 0.05 ...
-    # on récupère le coefficient avec la p-value la plus grande
+  if(length(retour)==0){ # si tous les coefficients ont une p-value infÃ©rieure Ã  0.05 ...
+    # on rÃ©cupÃ¨re le coefficient avec la p-value la plus grande
     sum_model <- data.summary[order(data.summary$`Pr(>|z|)`),]
     retour <- rownames(sum_model[nrow(sum_model),])
   }
@@ -73,7 +73,7 @@ Evolution_Pop <- function(dep,DF){
   cols <- cols[-6]
   
   par(xpd=TRUE, mar=c(8,4,4,3))
-  plot(1, type = 'n',xlim = c(1995,2015), ylim = c(0,100000), xlab = 'Année', ylab = 'Population')
+  plot(1, type = 'n',xlim = c(1995,2015), ylim = c(0,100000), xlab = 'AnnÃ©e', ylab = 'Population')
   
   for(i in 1:length(cols)){
     DEPARTEMENT <- ts(c(DF[[dep]][,cols[i]]),start = 1995, end = 2015)
@@ -172,7 +172,7 @@ Evolution_Pop <- function(dep,DF){
   cols <- cols[-6]
   
   par(xpd=TRUE, mar=c(8,4,4,3))
-  plot(1, type = 'n',xlim = c(1995,2015), ylim = c(0,100000), xlab = 'Année', ylab = 'Population')
+  plot(1, type = 'n',xlim = c(1995,2015), ylim = c(0,100000), xlab = 'AnnÃ©e', ylab = 'Population')
   
   for(i in 1:length(cols)){
     DEPARTEMENT <- ts(c(DF[[dep]][,cols[i]]),start = 1995, end = 2015)
@@ -236,11 +236,11 @@ for(dep in unique(DATA$Lieu)){
 
 
 \newpage
-##Classification des départements via les caractéristiques territoriales naturelles et artificielles
+##Classification des dÃ©partements via les caractÃ©ristiques territoriales naturelles et artificielles
 
 
 
-<p style="text-align:justify;">Nous commençons par faire une CAH sur toutes nos variables prédictrices afin d'observer les similitudes et dissimilitudes des différents départements étudiés. Nous ferons des CAH en 1995, 2005 et 2015 afin d'observer l'évolution des différents départements sur la période étudiée.
+<p style="text-align:justify;">Nous commenÃ§ons par faire une CAH sur toutes nos variables prÃ©dictrices afin d'observer les similitudes et dissimilitudes des diffÃ©rents dÃ©partements Ã©tudiÃ©s. Nous ferons des CAH en 1995, 2005 et 2015 afin d'observer l'Ã©volution des diffÃ©rents dÃ©partements sur la pÃ©riode Ã©tudiÃ©e.
 </p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 ALL <- cbind(PREDICTEUR[,-1], PREDICTRICE[-c(1,2)])
@@ -254,16 +254,16 @@ CAHAll <- hclust(dAll)
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 inertie <- sort(CAHAll$height, decreasing = TRUE)
-plot(inertie[1:93], type = "s", xlab = "Nombre de classes", ylab = "Inertie Résiduelle")
-title("Inertie résiduelle en fonction du nombre de classes")
+plot(inertie[1:93], type = "s", xlab = "Nombre de classes", ylab = "Inertie RÃ©siduelle")
+title("Inertie rÃ©siduelle en fonction du nombre de classes")
 points(c(5, 9), inertie[c(5, 9)], col = c("red3", "green3"), cex = 2, lwd = 3)
 ```
 
-<p style="text-align:justify;">Pour commencer, il faut observer sur l'évolution de l'inertie résiduelle le nombre optimal de classes. Pour cela, nous allons chercher les différents coudes sur le graphique ci-dessus. Nous observons deux coudes susceptibles de signifier un bon nombre de classes, représentés par les cercles rouge et vert.
+<p style="text-align:justify;">Pour commencer, il faut observer sur l'Ã©volution de l'inertie rÃ©siduelle le nombre optimal de classes. Pour cela, nous allons chercher les diffÃ©rents coudes sur le graphique ci-dessus. Nous observons deux coudes susceptibles de signifier un bon nombre de classes, reprÃ©sentÃ©s par les cercles rouge et vert.
 </p>
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
-plot(CAHAll, main = "Classification Ascendante Hiérarchique de la moyenne des départements sur toute la période")
+plot(CAHAll, main = "Classification Ascendante HiÃ©rarchique de la moyenne des dÃ©partements sur toute la pÃ©riode")
 rect.hclust(CAHAll, k = 5, border = "red3")
 rect.hclust(CAHAll, k = 9, border = "green3")
 ```
@@ -286,55 +286,55 @@ for( i in 1:max(groupesAll)){
 #print(MoyenneAll)
 ```
 
-<p style="text-align:justify;">Lors de la création de classes, il est important de les nommer afin de prouver qu'elles représentent quelque chose et que ce quelque chose est compréhensible.</p>
+<p style="text-align:justify;">Lors de la crÃ©ation de classes, il est important de les nommer afin de prouver qu'elles reprÃ©sentent quelque chose et que ce quelque chose est comprÃ©hensible.</p>
 
 
-<p style="text-align:justify;">La première classe regroupe les régions montagneuses des Alpes en France. Elle est caractérisée par beaucoup de pluie. Peut-être à cause des montagnes qui bloquent les nuages. Les départements la composant possèdent très peu d'éolienne et de photovoltaïque mais beaucoup de barrages. Ils possèdent aussi énormément d'espaces protégés.</p>
+<p style="text-align:justify;">La premiÃ¨re classe regroupe les rÃ©gions montagneuses des Alpes en France. Elle est caractÃ©risÃ©e par beaucoup de pluie. Peut-Ãªtre Ã  cause des montagnes qui bloquent les nuages. Les dÃ©partements la composant possÃ¨dent trÃ¨s peu d'Ã©olienne et de photovoltaÃ¯que mais beaucoup de barrages. Ils possÃ¨dent aussi Ã©normÃ©ment d'espaces protÃ©gÃ©s.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 rownames(AllGps[which(AllGps$groupesAll==1),])
 ```
 
-<p style="text-align:justify;">Le deuxième groupe représente la majorité. Des départements, ni trop urbains, ni trop ruraux.</p>
+<p style="text-align:justify;">Le deuxiÃ¨me groupe reprÃ©sente la majoritÃ©. Des dÃ©partements, ni trop urbains, ni trop ruraux.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 rownames(AllGps[which(AllGps$groupesAll==2),])
 ```
 
-<p style="text-align:justify;">Le troisième groupe regroupe la majorité des régions plutôt rurales, pauvres et relativement peu peuplées du centre de la France, la diagonale du vide.</p>
+<p style="text-align:justify;">Le troisiÃ¨me groupe regroupe la majoritÃ© des rÃ©gions plutÃ´t rurales, pauvres et relativement peu peuplÃ©es du centre de la France, la diagonale du vide.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 rownames(AllGps[which(AllGps$groupesAll==3),])
 ```
 
-<p style="text-align:justify;">Une quatrième classe regroupe le Var, l'Hérault et les Alpes-Maritimes. Il s'agit des départements côtiers de méditerranée. Ils sont composés de villes assez actives : Toulon, Nice et Montpellier, ainsi que de grands espaces naturels.</p>
+<p style="text-align:justify;">Une quatriÃ¨me classe regroupe le Var, l'HÃ©rault et les Alpes-Maritimes. Il s'agit des dÃ©partements cÃ´tiers de mÃ©diterranÃ©e. Ils sont composÃ©s de villes assez actives : Toulon, Nice et Montpellier, ainsi que de grands espaces naturels.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 rownames(AllGps[which(AllGps$groupesAll==4),])
 ```
 
-<p style="text-align:justify;">Le cinquième groupe représente les Bouches du Rhône. Il s'agit d'un département côtier, urbain et rural à la fois grâce à ses grands espaces naturels. De plus, ce département possède une grande zone portuaire ainsi que de nombreuses zones inondables. Son coté maritime peut être une forte explication de son exclusion du groupe composé de Lyon et de la région parisienne. D'un autre côté, l'importance de la zone urbaine l'a fortement éloigné du groupe des départements méditerranéens.</p>
+<p style="text-align:justify;">Le cinquiÃ¨me groupe reprÃ©sente les Bouches du RhÃ´ne. Il s'agit d'un dÃ©partement cÃ´tier, urbain et rural Ã  la fois grÃ¢ce Ã  ses grands espaces naturels. De plus, ce dÃ©partement possÃ¨de une grande zone portuaire ainsi que de nombreuses zones inondables. Son cotÃ© maritime peut Ãªtre une forte explication de son exclusion du groupe composÃ© de Lyon et de la rÃ©gion parisienne. D'un autre cÃ´tÃ©, l'importance de la zone urbaine l'a fortement Ã©loignÃ© du groupe des dÃ©partements mÃ©diterranÃ©ens.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 rownames(AllGps[which(AllGps$groupesAll==5),])
 ```
 
-<p style="text-align:justify;">le sixièmre groupe, composé des départements de la région parisienne et du Rhône, département de la ville de Lyon, est caractérisé par de grandes zones urbaines.</p>
+<p style="text-align:justify;">le sixiÃ¨mre groupe, composÃ© des dÃ©partements de la rÃ©gion parisienne et du RhÃ´ne, dÃ©partement de la ville de Lyon, est caractÃ©risÃ© par de grandes zones urbaines.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 rownames(AllGps[which(AllGps$groupesAll==6),])
 ```
 
-<p style="text-align:justify;">Dans le septième groupe, la Gironde se retrouve toute seule. Il s'agit d'un grand département, possédant beaucoup de zones maritimes, agricoles, et beaucoup d'eau douce.</p>
+<p style="text-align:justify;">Dans le septiÃ¨me groupe, la Gironde se retrouve toute seule. Il s'agit d'un grand dÃ©partement, possÃ©dant beaucoup de zones maritimes, agricoles, et beaucoup d'eau douce.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 rownames(AllGps[which(AllGps$groupesAll==7),])
 ```
 
-<p style="text-align:justify;">La huitième classe contient les départements du nord de la France possédant de grands ports en eaux profondes (Le Havre). Il s'agit de départements froids, et avec un fort taux de chômage.</p>
+<p style="text-align:justify;">La huitiÃ¨me classe contient les dÃ©partements du nord de la France possÃ©dant de grands ports en eaux profondes (Le Havre). Il s'agit de dÃ©partements froids, et avec un fort taux de chÃ´mage.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 rownames(AllGps[which(AllGps$groupesAll==8),])
 ```
 
-<p style="text-align:justify;">Le dernier groupe, le neuvième, n'est composé que de Paris. Un département ville d'une très petite superficie et unique en France. C'est le département avec la plus grande activité.</p>
+<p style="text-align:justify;">Le dernier groupe, le neuviÃ¨me, n'est composÃ© que de Paris. Un dÃ©partement ville d'une trÃ¨s petite superficie et unique en France. C'est le dÃ©partement avec la plus grande activitÃ©.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 rownames(AllGps[which(AllGps$groupesAll==9),])
 ```
 
-<p style="text-align:justify;">On effectue la même analyse, mais cette fois-ci pour les données de 1995, 2005 et 2015 afin d'observer les rapprochements et éloignements des différents départements les uns des autres.</p>
+<p style="text-align:justify;">On effectue la mÃªme analyse, mais cette fois-ci pour les donnÃ©es de 1995, 2005 et 2015 afin d'observer les rapprochements et Ã©loignements des diffÃ©rents dÃ©partements les uns des autres.</p>
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 
@@ -346,19 +346,19 @@ ALL <- scale(ALL)
 dAll <- dist(ALL[,1:128])
 CAHAll <- hclust(dAll)
 inertie <- sort(CAHAll$height, decreasing = TRUE)
-plot(inertie[1:93], type = "s", xlab = "Nombre de classes", ylab = "Inertie Résiduelle")
-title("Inertie résiduelle en fonction du nombre de classes")
+plot(inertie[1:93], type = "s", xlab = "Nombre de classes", ylab = "Inertie RÃ©siduelle")
+title("Inertie rÃ©siduelle en fonction du nombre de classes")
 points(c(5, 9), inertie[c(5, 9)], col = c("red3", "green3"), cex = 2, lwd = 3)
 ```
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
-plot(CAHAll, main = "Classification Ascendante Hiérarchique des départements en 1995")
+plot(CAHAll, main = "Classification Ascendante HiÃ©rarchique des dÃ©partements en 1995")
 groupesAll <- cutree(CAHAll, k = 9)
 rect.hclust(CAHAll, k = 5, border = "red3")
 rect.hclust(CAHAll, k = 9, border = "green3")
 ```
 
-<p style="text-align:justify;">En 1995, la classification nous permet de séparer certains départements du groupe contenant la majorité du territoire. On observait déjà l'isolement de Paris, des Bouches du Rhône et de la Gironde. Il en était de même pour la région parisienne et Lyon qui forment un groupe de petits départements urbains. On observe un autre groupe composé des territoires relativement développés, avec de grandes zones urbaines quant aux autres et de petits départements par rapport à la majorité. On observe aussi une séparation du Nord et du Pas de Calais de la majorité. Ces départements se rapprochent plus de la région parisienne que de la majorité, ce que l'on pourrait expliquer par l'appartenance de ces territoires aux anciennes riches provinces des Flandres. Cependant, aujourd'hui, il s'agit plus de territoires pauvres très urbains, avec un taux de chômage élevé en comparaison du reste de la France. Encore une fois, on remarque que les Alpes française, leurs grandes zones protégées, ainsi que leur faible urbanisation sont séparées des autres départements. En 1995, on observe également le groupe constitué de la Lozère et des Alpes de Hautes Provences. Ces départements se rapprochent du groupe alpin. Cependant, la faible altitude et l'absence quasi-totale d'urbanisation de ces territoires, les séparent de ce groupe.</p>
+<p style="text-align:justify;">En 1995, la classification nous permet de sÃ©parer certains dÃ©partements du groupe contenant la majoritÃ© du territoire. On observait dÃ©jÃ  l'isolement de Paris, des Bouches du RhÃ´ne et de la Gironde. Il en Ã©tait de mÃªme pour la rÃ©gion parisienne et Lyon qui forment un groupe de petits dÃ©partements urbains. On observe un autre groupe composÃ© des territoires relativement dÃ©veloppÃ©s, avec de grandes zones urbaines quant aux autres et de petits dÃ©partements par rapport Ã  la majoritÃ©. On observe aussi une sÃ©paration du Nord et du Pas de Calais de la majoritÃ©. Ces dÃ©partements se rapprochent plus de la rÃ©gion parisienne que de la majoritÃ©, ce que l'on pourrait expliquer par l'appartenance de ces territoires aux anciennes riches provinces des Flandres. Cependant, aujourd'hui, il s'agit plus de territoires pauvres trÃ¨s urbains, avec un taux de chÃ´mage Ã©levÃ© en comparaison du reste de la France. Encore une fois, on remarque que les Alpes franÃ§aise, leurs grandes zones protÃ©gÃ©es, ainsi que leur faible urbanisation sont sÃ©parÃ©es des autres dÃ©partements. En 1995, on observe Ã©galement le groupe constituÃ© de la LozÃ¨re et des Alpes de Hautes Provences. Ces dÃ©partements se rapprochent du groupe alpin. Cependant, la faible altitude et l'absence quasi-totale d'urbanisation de ces territoires, les sÃ©parent de ce groupe.</p>
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 
@@ -370,23 +370,23 @@ ALL <- scale(ALL)
 dAll <- dist(ALL[,1:128])
 CAHAll <- hclust(dAll)
 inertie <- sort(CAHAll$height, decreasing = TRUE)
-plot(inertie[1:93], type = "s", xlab = "Nombre de classes", ylab = "Inertie Résiduelle")
-title("Inertie résiduelle en fonction du nombre de classes")
+plot(inertie[1:93], type = "s", xlab = "Nombre de classes", ylab = "Inertie RÃ©siduelle")
+title("Inertie rÃ©siduelle en fonction du nombre de classes")
 points(c(4, 7, 10), inertie[c(4, 7, 10)], col = c("red3", "green3", "blue3"), cex = 2, lwd = 3)
 
 ```
 
-<p style="text-align:justify;">Sur ce graphique, la séparation des classes semble plus difficile. On observe 3 coudes distincts pouvant chacun être un nombre intéressant de groupes.</p>
+<p style="text-align:justify;">Sur ce graphique, la sÃ©paration des classes semble plus difficile. On observe 3 coudes distincts pouvant chacun Ãªtre un nombre intÃ©ressant de groupes.</p>
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
-plot(CAHAll, main = "Classification Ascendante Hiérarchique des départements en 2005")
+plot(CAHAll, main = "Classification Ascendante HiÃ©rarchique des dÃ©partements en 2005")
 groupesAll <- cutree(CAHAll, k = 5)
 rect.hclust(CAHAll, k = 4, border = "red3")
 rect.hclust(CAHAll, k = 7, border = "green3")
 rect.hclust(CAHAll, k = 10, border = "blue3")
 ```
 
-<p style="text-align:justify;">L'avantage de la classification ascendante hiérarchique réside dans le choix du nombre de classe. En effet, on peut passer facilement d'une à deux classes sans changer drastiquement la composition des classes. Ici, on va se focaliser sur les classes bleues. Encore et toujours, on se retrouve avec nos trois départements isolés. Paris, les Bouches du Rhône et la Gironde. Cette fois-ci, on observe un autre département en train de se séparer des autres : La Loire-Atlantique. D'un côté, ce département se rapproche des départements côtiers et très actifs du côté maritime, avec des ports importants comme le Havre, Dunkerque ou calais. Ce département s'est fortement éloigné des autres durant les 10 années séparant 1995 et 2005. Comme en 1995, on retrouve le groupe constitué de la région parisienne et de la ville de Lyon, ainsi que le groupes des Alpes française. En 2005, on notera l'apparition du groupe des départements actif et naturels méditerranéens (Var, Hérault et Alpes Maritimes).</p>
+<p style="text-align:justify;">L'avantage de la classification ascendante hiÃ©rarchique rÃ©side dans le choix du nombre de classe. En effet, on peut passer facilement d'une Ã  deux classes sans changer drastiquement la composition des classes. Ici, on va se focaliser sur les classes bleues. Encore et toujours, on se retrouve avec nos trois dÃ©partements isolÃ©s. Paris, les Bouches du RhÃ´ne et la Gironde. Cette fois-ci, on observe un autre dÃ©partement en train de se sÃ©parer des autres : La Loire-Atlantique. D'un cÃ´tÃ©, ce dÃ©partement se rapproche des dÃ©partements cÃ´tiers et trÃ¨s actifs du cÃ´tÃ© maritime, avec des ports importants comme le Havre, Dunkerque ou calais. Ce dÃ©partement s'est fortement Ã©loignÃ© des autres durant les 10 annÃ©es sÃ©parant 1995 et 2005. Comme en 1995, on retrouve le groupe constituÃ© de la rÃ©gion parisienne et de la ville de Lyon, ainsi que le groupes des Alpes franÃ§aise. En 2005, on notera l'apparition du groupe des dÃ©partements actif et naturels mÃ©diterranÃ©ens (Var, HÃ©rault et Alpes Maritimes).</p>
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 
@@ -398,27 +398,27 @@ ALL <- scale(ALL)
 dAll <- dist(ALL[,1:128])
 CAHAll <- hclust(dAll)
 inertie <- sort(CAHAll$height, decreasing = TRUE)
-plot(inertie[1:93], type = "s", xlab = "Nombre de classes", ylab = "Inertie Résiduelle")
-title("Inertie résiduelle en fonction du nombre de classes")
+plot(inertie[1:93], type = "s", xlab = "Nombre de classes", ylab = "Inertie RÃ©siduelle")
+title("Inertie rÃ©siduelle en fonction du nombre de classes")
 points(c(4, 8), inertie[c(4, 8)], col = c("red3", "green3", "blue3"), cex = 2, lwd = 3)
 
 ```
 
-<p style="text-align:justify;">Même si 6 classes paraitraient plus adaptées, au vu du graphique ci-dessus, 8 classes permettent un meilleur découpage des zones.</p>
+<p style="text-align:justify;">MÃªme si 6 classes paraitraient plus adaptÃ©es, au vu du graphique ci-dessus, 8 classes permettent un meilleur dÃ©coupage des zones.</p>
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
-plot(CAHAll, main = "Classification Ascendante Hiérarchique des départements en 2015")
+plot(CAHAll, main = "Classification Ascendante HiÃ©rarchique des dÃ©partements en 2015")
 groupesAll <- cutree(CAHAll, k = 5)
 rect.hclust(CAHAll, k = 4, border = "red3")
 rect.hclust(CAHAll, k = 8, border = "green3")
 ```
 
-<p style="text-align:justify;">Ainsi, en analysant cette classification, on se rend compte que la Loire-Atlantique a finalement rejoint les grands ports du nord de la France, et que ce groupe tend à rejoindre Bordeaux. On notera également la disparition du groupe constitué des départements méditerranéens. Pour ce qui est du groupe très urbain de la région parisienne et du Rhône, on remarque l'apparition des Alpes Maritimes. On peut expliquer cela par un fort développement urbain de ce département, notamment sur ses côtes. Les autres départements du groupe méditerranéen (Var, Hérault), se sont rapprochés des autres zones côtières du sud de la France. On finira en observant l'agrandissement du groupe regroupant les départements alpins, qui contient désormais de nombreux départements montagneux du sud de la France.</p>
+<p style="text-align:justify;">Ainsi, en analysant cette classification, on se rend compte que la Loire-Atlantique a finalement rejoint les grands ports du nord de la France, et que ce groupe tend Ã  rejoindre Bordeaux. On notera Ã©galement la disparition du groupe constituÃ© des dÃ©partements mÃ©diterranÃ©ens. Pour ce qui est du groupe trÃ¨s urbain de la rÃ©gion parisienne et du RhÃ´ne, on remarque l'apparition des Alpes Maritimes. On peut expliquer cela par un fort dÃ©veloppement urbain de ce dÃ©partement, notamment sur ses cÃ´tes. Les autres dÃ©partements du groupe mÃ©diterranÃ©en (Var, HÃ©rault), se sont rapprochÃ©s des autres zones cÃ´tiÃ¨res du sud de la France. On finira en observant l'agrandissement du groupe regroupant les dÃ©partements alpins, qui contient dÃ©sormais de nombreux dÃ©partements montagneux du sud de la France.</p>
 
-<p style="text-align:justify;">On essaie par la suite de trouver quels sont les départements similaires en répartition de population.</p>
+<p style="text-align:justify;">On essaie par la suite de trouver quels sont les dÃ©partements similaires en rÃ©partition de population.</p>
 
 \newpage
-##Classification des départements par la répartition de leur population
+##Classification des dÃ©partements par la rÃ©partition de leur population
 
 
 
@@ -427,7 +427,7 @@ repartition <- aggregate(.~Lieu, data = PREDICTRICE, FUN = mean)
 row.names(repartition) <- repartition$Lieu
 repartition <- repartition[,-1]
 
-#Génération des pourcentages : 
+#GÃ©nÃ©ration des pourcentages : 
 
 repartition <- repartition/repartition$Population_Francaise_Totale
 
@@ -438,15 +438,15 @@ repartition <- repartition[,-6]
 dRepartition <- dist(repartition)
 CAHRepartition <- hclust(dRepartition)
 inertie <- sort(CAHRepartition$height, decreasing = TRUE)
-plot(inertie[1:93], type = "s", xlab = "Nombre de classes", ylab = "Inertie Résiduelle")
-title("Inertie résiduelle en fonction du nombre de classes")
+plot(inertie[1:93], type = "s", xlab = "Nombre de classes", ylab = "Inertie RÃ©siduelle")
+title("Inertie rÃ©siduelle en fonction du nombre de classes")
 points(c(6, 8), inertie[c(6, 8)], col = c("red3", "green3"), cex = 2, lwd = 3)
 ```
 
-<p style="text-align:justify;">D'après le graphique de l'inertie résiduelle, il semblerait que 8 classes soient optimales pour notre classification.</p>
+<p style="text-align:justify;">D'aprÃ¨s le graphique de l'inertie rÃ©siduelle, il semblerait que 8 classes soient optimales pour notre classification.</p>
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
-plot(CAHRepartition, main = "CAH de la répartition de la population des départements moyennés sur la période"  )
+plot(CAHRepartition, main = "CAH de la rÃ©partition de la population des dÃ©partements moyennÃ©s sur la pÃ©riode"  )
 groupesrepartition <- cutree(CAHRepartition, k = 5)
 rect.hclust(CAHRepartition, k = 6, border = "red3")
 rect.hclust(CAHRepartition, k = 8, border = "green3")
@@ -457,7 +457,7 @@ repartition <- PREDICTRICE[which(PREDICTRICE$Annee == 1995),2:13]
 row.names(repartition) <- repartition$Lieu
 repartition <- repartition[,-1]
 
-#Génération des pourcentages : 
+#GÃ©nÃ©ration des pourcentages : 
 
 repartition <- repartition/repartition$Population_Francaise_Totale
 
@@ -466,15 +466,15 @@ repartition <- repartition[,-6]
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 inertie <- sort(CAHRepartition$height, decreasing = TRUE)
-plot(inertie[1:93], type = "s", xlab = "Nombre de classes", ylab = "Inertie Résiduelle")
-title("Inertie résiduelle en fonction du nombre de classes")
+plot(inertie[1:93], type = "s", xlab = "Nombre de classes", ylab = "Inertie RÃ©siduelle")
+title("Inertie rÃ©siduelle en fonction du nombre de classes")
 points(c(5,8), inertie[c(5,8)], col = c("red3", "green3"), cex = 2, lwd = 3)
 ```
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 dRepartition <- dist(repartition)
 CAHRepartition <- hclust(dRepartition)
-plot(CAHRepartition, main = "CAH de la répartition de la population des départements en 1995"  )
+plot(CAHRepartition, main = "CAH de la rÃ©partition de la population des dÃ©partements en 1995"  )
 rect.hclust(CAHRepartition, k = 5, border = "red3")
 rect.hclust(CAHRepartition, k = 8, border = "green3")
 ```
@@ -494,7 +494,7 @@ for( i in 1:max(groupesRep)){
 #print(MoyenneRep)
 ```
 
-<p style="text-align:justify;">Notre premier groupe est caractérisé par une population plus jeune que la moyenne nationnale.</p>
+<p style="text-align:justify;">Notre premier groupe est caractÃ©risÃ© par une population plus jeune que la moyenne nationnale.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 ii <- 1
 rownames(AllGps[which(AllGps$groupesRep==ii),])
@@ -504,7 +504,7 @@ colnames(GroupeI) <- c(paste("groupe",ii))
 GroupeI
 ```
 
-<p style="text-align:justify;">Les deuxième et troisième groupes sont tous deux très proches. Ils possèdent une population plus vielle que la moyenne française. Cependant, le groupe 2 est légèrement plus vieux.</p>
+<p style="text-align:justify;">Les deuxiÃ¨me et troisiÃ¨me groupes sont tous deux trÃ¨s proches. Ils possÃ¨dent une population plus vielle que la moyenne franÃ§aise. Cependant, le groupe 2 est lÃ©gÃ¨rement plus vieux.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 ii <- 2
 rownames(AllGps[which(AllGps$groupesRep==ii),])
@@ -523,7 +523,7 @@ colnames(GroupeI) <- c(paste("groupe",ii))
 GroupeI
 ```
 
-<p style="text-align:justify;">Ici avec le quatrième groupe, nous avons le groupe de départements représentant le mieux la moyenne nationale en répartition de population.</p>
+<p style="text-align:justify;">Ici avec le quatriÃ¨me groupe, nous avons le groupe de dÃ©partements reprÃ©sentant le mieux la moyenne nationale en rÃ©partition de population.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 ii <- 4
 rownames(AllGps[which(AllGps$groupesRep==ii),])
@@ -533,7 +533,7 @@ colnames(GroupeI) <- c(paste("groupe",ii))
 GroupeI
 ```
 
-<p style="text-align:justify;">Ce groupe est composé de départements très actifs et riches de région parisienne (Hauts de Seine, Val de Marne), et de deux autres départements actifs avec des grandes villes (Strasbourg et Toulouse). Il s'agit de départements avec peu de personnes âgées et une population jeune. Cependant, contrairement à Paris, il y a un nombre d'enfants proche de la moyenne nationale.</p>
+<p style="text-align:justify;">Ce groupe est composÃ© de dÃ©partements trÃ¨s actifs et riches de rÃ©gion parisienne (Hauts de Seine, Val de Marne), et de deux autres dÃ©partements actifs avec des grandes villes (Strasbourg et Toulouse). Il s'agit de dÃ©partements avec peu de personnes Ã¢gÃ©es et une population jeune. Cependant, contrairement Ã  Paris, il y a un nombre d'enfants proche de la moyenne nationale.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 ii <- 5
 rownames(AllGps[which(AllGps$groupesRep==ii),])
@@ -543,7 +543,7 @@ colnames(GroupeI) <- c(paste("groupe",ii))
 GroupeI
 ```
 
-<p style="text-align:justify;">La répartition de la population dans la Creuse est assez atypique. Ce département a la plus faible proportion d'actifs, ce qui est compensé par une proportion de seniors deux fois supérieure au reste de la France. De plus, avec Paris, il s'agit de l'un des départements avec le moins d'enfants en proportion.</p>
+<p style="text-align:justify;">La rÃ©partition de la population dans la Creuse est assez atypique. Ce dÃ©partement a la plus faible proportion d'actifs, ce qui est compensÃ© par une proportion de seniors deux fois supÃ©rieure au reste de la France. De plus, avec Paris, il s'agit de l'un des dÃ©partements avec le moins d'enfants en proportion.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 ii <- 6
 rownames(AllGps[which(AllGps$groupesRep==ii),])
@@ -553,7 +553,7 @@ colnames(GroupeI) <- c(paste("groupe",ii))
 GroupeI
 ```
 
-<p style="text-align:justify;">Ce groupe est composé des zones défavorisées la région parisienne. Contrairement à la classification précédente, où l'on s'attardait sur les caractéristiques des départements (urbanisation, terrain.), le département du Rhône, ne fait pas parti de ce groupe. Cette zone est notamment caractérisée par une population très jeune. C'est le groupe possédant le taux de senior le plus faible, et le taux d'enfants le plus élevé.</p>
+<p style="text-align:justify;">Ce groupe est composÃ© des zones dÃ©favorisÃ©es la rÃ©gion parisienne. Contrairement Ã  la classification prÃ©cÃ©dente, oÃ¹ l'on s'attardait sur les caractÃ©ristiques des dÃ©partements (urbanisation, terrain.), le dÃ©partement du RhÃ´ne, ne fait pas parti de ce groupe. Cette zone est notamment caractÃ©risÃ©e par une population trÃ¨s jeune. C'est le groupe possÃ©dant le taux de senior le plus faible, et le taux d'enfants le plus Ã©levÃ©.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 ii <- 7
 rownames(AllGps[which(AllGps$groupesRep==ii),])
@@ -563,7 +563,7 @@ colnames(GroupeI) <- c(paste("groupe",ii))
 GroupeI
 ```
 
-<p style="text-align:justify;">Le fameux groupe ne contenant que Paris lors de la classification sur les variables explicatives se retrouve encore ici. Paris est un département unique en France. Il s'agit d'une zone totalement urbanisée, minuscule et extrêmement peuplée. De plus, c'est là-bas que se situe une énorme partie de l'activité française. C'est une région extrêmement dynamique, caractérisée par une population de jeunes actifs (plus de 36% de la population âgée de 20 à 40 ans et 25% âgée de 40 à 60 ans). Il n'y a pas beaucoup d'enfants, comme dans la Creuse. Ce département est toutefois dans la moyenne française concernant les seniors.</p>
+<p style="text-align:justify;">Le fameux groupe ne contenant que Paris lors de la classification sur les variables explicatives se retrouve encore ici. Paris est un dÃ©partement unique en France. Il s'agit d'une zone totalement urbanisÃ©e, minuscule et extrÃªmement peuplÃ©e. De plus, c'est lÃ -bas que se situe une Ã©norme partie de l'activitÃ© franÃ§aise. C'est une rÃ©gion extrÃªmement dynamique, caractÃ©risÃ©e par une population de jeunes actifs (plus de 36% de la population Ã¢gÃ©e de 20 Ã  40 ans et 25% Ã¢gÃ©e de 40 Ã  60 ans). Il n'y a pas beaucoup d'enfants, comme dans la Creuse. Ce dÃ©partement est toutefois dans la moyenne franÃ§aise concernant les seniors.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 ii <- 8
 rownames(AllGps[which(AllGps$groupesRep==ii),])
@@ -577,14 +577,14 @@ GroupeI
 Repartition("PARIS", DF, 1995)
 ```
 
-<p style="text-align:justify;">Nous noterons par ailleurs que pour tous les départements, il y a plus d'hommes que de femmes chez les jeunes jusqu'à la tranche des 40 à 60 ans. Mais qu'au-delà, il y a plus de femmes que d'hommes. Au total, pour la somme de toutes les tranches d'âges, il y a plus de femmes que d'hommes.</p>
+<p style="text-align:justify;">Nous noterons par ailleurs que pour tous les dÃ©partements, il y a plus d'hommes que de femmes chez les jeunes jusqu'Ã  la tranche des 40 Ã  60 ans. Mais qu'au-delÃ , il y a plus de femmes que d'hommes. Au total, pour la somme de toutes les tranches d'Ã¢ges, il y a plus de femmes que d'hommes.</p>
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 repartition <- PREDICTRICE[which(PREDICTRICE$Annee == 2005),2:13]
 row.names(repartition) <- repartition$Lieu
 repartition <- repartition[,-1]
 
-#Génération des pourcentages : 
+#GÃ©nÃ©ration des pourcentages : 
 
 repartition <- repartition/repartition$Population_Francaise_Totale
 
@@ -595,15 +595,15 @@ repartition <- repartition[,-6]
 dRepartition <- dist(repartition)
 CAHRepartition <- hclust(dRepartition)
 inertie <- sort(CAHRepartition$height, decreasing = TRUE)
-plot(inertie[1:93], type = "s", xlab = "Nombre de classes", ylab = "Inertie Résiduelle")
-title("Inertie résiduelle en fonction du nombre de classes")
+plot(inertie[1:93], type = "s", xlab = "Nombre de classes", ylab = "Inertie RÃ©siduelle")
+title("Inertie rÃ©siduelle en fonction du nombre de classes")
 points(c(5,8), inertie[c(5,8)], col = c("red3", "green3"), cex = 2, lwd = 3)
 ```
 
-<p style="text-align:justify;">Le point vert se situe au même nombre de classes que pour 1995. Nous allons rester sur ce nombre de classes afin de rester en cohérence avec les analyses précédentes.</p>
+<p style="text-align:justify;">Le point vert se situe au mÃªme nombre de classes que pour 1995. Nous allons rester sur ce nombre de classes afin de rester en cohÃ©rence avec les analyses prÃ©cÃ©dentes.</p>
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
-plot(CAHRepartition, main = "CAH de la répartition de la population des départements en 2005"  )
+plot(CAHRepartition, main = "CAH de la rÃ©partition de la population des dÃ©partements en 2005"  )
 rect.hclust(CAHRepartition, k = 5, border = "red3")
 rect.hclust(CAHRepartition, k = 8, border = "green3")
 ```
@@ -623,20 +623,20 @@ for( i in 1:max(groupesRep)){
 print(t(MoyenneRep))
 ```
 
-<p style="text-align:justify;">Tout d'abord, on remarque que Paris n'a pas beaucoup évolué entre 1995 et 2005. On y retrouve encore une fois une population jeune et sans enfants. Le reste de la région Parisienne reste globalement inchangé. L'autre département solitaire de 1995, la Creuse, s'est quant à lui rapproché de certains départements, les départements les moins peuplés de France, qui se caractérisent par conséquent par une forte proportion de seniors. Ces départements sont très éloignés des autres sur le plan de la répartition de la population.</p>
+<p style="text-align:justify;">Tout d'abord, on remarque que Paris n'a pas beaucoup Ã©voluÃ© entre 1995 et 2005. On y retrouve encore une fois une population jeune et sans enfants. Le reste de la rÃ©gion Parisienne reste globalement inchangÃ©. L'autre dÃ©partement solitaire de 1995, la Creuse, s'est quant Ã  lui rapprochÃ© de certains dÃ©partements, les dÃ©partements les moins peuplÃ©s de France, qui se caractÃ©risent par consÃ©quent par une forte proportion de seniors. Ces dÃ©partements sont trÃ¨s Ã©loignÃ©s des autres sur le plan de la rÃ©partition de la population.</p>
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 rownames(AllGps[which(AllGps$groupesRep==4),])
 ```
 
-<p style="text-align:justify;">Encore une fois, on retrouve un groupe représentant assez bien la moyenne française. Il s'agit globalement des mêmes qu'en 1995. On notera cependant la disparition des Bouches du Rhône et de la Gironde qui ont une population rajeunissante.</p>
+<p style="text-align:justify;">Encore une fois, on retrouve un groupe reprÃ©sentant assez bien la moyenne franÃ§aise. Il s'agit globalement des mÃªmes qu'en 1995. On notera cependant la disparition des Bouches du RhÃ´ne et de la Gironde qui ont une population rajeunissante.</p>
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 repartition <- PREDICTRICE[which(PREDICTRICE$Annee == 2015),2:13]
 row.names(repartition) <- repartition$Lieu
 repartition <- repartition[,-1]
 
-#Génération des pourcentages : 
+#GÃ©nÃ©ration des pourcentages : 
 
 repartition <- repartition/repartition$Population_Francaise_Totale
 
@@ -647,13 +647,13 @@ repartition <- repartition[,-6]
 dRepartition <- dist(repartition)
 CAHRepartition <- hclust(dRepartition)
 inertie <- sort(CAHRepartition$height, decreasing = TRUE)
-plot(inertie[1:93], type = "s", xlab = "Nombre de classes", ylab = "Inertie Résiduelle")
-title("Inertie résiduelle en fonction du nombre de classes")
+plot(inertie[1:93], type = "s", xlab = "Nombre de classes", ylab = "Inertie RÃ©siduelle")
+title("Inertie rÃ©siduelle en fonction du nombre de classes")
 points(c(5,8), inertie[c(5,8)], col = c("red3", "green3"), cex = 2, lwd = 3)
 ```
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
-plot(CAHRepartition, main = "CAH de la répartition de la population des départements en 2015"  )
+plot(CAHRepartition, main = "CAH de la rÃ©partition de la population des dÃ©partements en 2015"  )
 rect.hclust(CAHRepartition, k = 5, border = "red3")
 rect.hclust(CAHRepartition, k = 8, border = "green3")
 ```
@@ -673,9 +673,9 @@ for( i in 1:max(groupesRep)){
 #print(MoyenneRep)
 ```
 
-<p style="text-align:justify;">Pour finir, nous observons les répartitions en 2015. La modification la plus flagrante semble être la Seine Saint Denis qui possède désormais son propre groupe. Il s'agit, et de très loin, du département le plus jeune de France, avec plus de 28% d'enfants. Pour la majorité de la France, la population vieillit, à l'exception de Paris qui possède toujours une forte attractivité chez les jeunes actifs.</p>
+<p style="text-align:justify;">Pour finir, nous observons les rÃ©partitions en 2015. La modification la plus flagrante semble Ãªtre la Seine Saint Denis qui possÃ¨de dÃ©sormais son propre groupe. Il s'agit, et de trÃ¨s loin, du dÃ©partement le plus jeune de France, avec plus de 28% d'enfants. Pour la majoritÃ© de la France, la population vieillit, Ã  l'exception de Paris qui possÃ¨de toujours une forte attractivitÃ© chez les jeunes actifs.</p>
 
-<p style="text-align:justify;">On remarque également un groupe de départements très différent du reste de la France dans le sens où il est composé de plus de personnes de plus de 60 ans que de personnes de moins de 40 ans. Ce groupe est composé de départements très peu attractifs comme la Creuse, le Lot et le Cantal.</p>
+<p style="text-align:justify;">On remarque Ã©galement un groupe de dÃ©partements trÃ¨s diffÃ©rent du reste de la France dans le sens oÃ¹ il est composÃ© de plus de personnes de plus de 60 ans que de personnes de moins de 40 ans. Ce groupe est composÃ© de dÃ©partements trÃ¨s peu attractifs comme la Creuse, le Lot et le Cantal.</p>
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 ii <- 5
 rownames(AllGps[which(AllGps$groupesRep==ii),])
@@ -686,7 +686,7 @@ GroupeI
 ```
 
 \newpage
-##Recherche variables explicatives, modèle linéaire simple
+##Recherche variables explicatives, modÃ¨le linÃ©aire simple
 
 
 
@@ -699,7 +699,7 @@ for(variable in list_var){
   # VV <- c()
   
   "
-  on veut sélectionner les variables le splus significative spour distinguer les individus entre eux.
+  on veut sÃ©lectionner les variables le splus significative spour distinguer les individus entre eux.
   Les plus significatives au sens de la population totale
   "
   DATA <- cbind(PREDICTRICE2[variable],PREDICTEUR2)
@@ -722,11 +722,11 @@ for(variable in list_var){
                           paste(n[!n %in% "(Intercept)"], collapse = " + ")))
     modelk <- lm(f,data=DATA)
     sum_modelk <- summary(modelk)
-    # RR <- c(RR,modelk$adj.r.squared) # on récupère le R2
+    # RR <- c(RR,modelk$adj.r.squared) # on rÃ©cupÃ¨re le R2
     sum_modelk <- as.data.frame(sum_modelk$coefficients)
     sum_modelk <- sum_modelk[order(sum_modelk$`Pr(>|t|)`),]
     sum_modelk <- sum_modelk[!rownames(sum_modelk) %in% "(Intercept)",]
-    # VV <- c(VV,nrow(sum_modelk)) # on récupère le nombre de variables
+    # VV <- c(VV,nrow(sum_modelk)) # on rÃ©cupÃ¨re le nombre de variables
   }
   n <- names(as.data.frame(t(sum_modelk)))
   variables.explicatives[variable] <- as.data.frame(n)
@@ -736,7 +736,7 @@ for(variable in list_var){
 }
 ```
 
-<p style="text-align:justify;">Le fichier contient environ 140 variables. Nous voulons évincer celles qui ne sont pas pertinentes et qui n'expliquent pas nos départements. Pour chaque population, nous enlevons le coefficient avec la p-value la plus grande. Nous itérons tant que la p-value est supérieure à E-50 ou bien que nous avons plus de 10 coefficients, tout en conservant au minimum 4 de ceux-ci. Avec les formules appropriées, nous arrivons à conserver les variables suivantes pour chaque catégorie de population:</p>
+<p style="text-align:justify;">Le fichier contient environ 140 variables. Nous voulons Ã©vincer celles qui ne sont pas pertinentes et qui n'expliquent pas nos dÃ©partements. Pour chaque population, nous enlevons le coefficient avec la p-value la plus grande. Nous itÃ©rons tant que la p-value est supÃ©rieure Ã  E-50 ou bien que nous avons plus de 10 coefficients, tout en conservant au minimum 4 de ceux-ci. Avec les formules appropriÃ©es, nous arrivons Ã  conserver les variables suivantes pour chaque catÃ©gorie de population:</p>
 
 ```{r affichage_variables_explicatives, echo=FALSE}
 pops <- names(variables.explicatives)
@@ -795,29 +795,29 @@ for(tranche_age in 1:length(variables.explicatives)){
 
 }
 R2_hat <- data.frame(cbind(names(variables.explicatives),R2_hat))
-colnames(R2_hat) <- c("Tranche de population","R2 ajusté")
+colnames(R2_hat) <- c("Tranche de population","R2 ajustÃ©")
 ```
 
-<p style="text-align:justify;">Par bootstrap ont ré-échantillonne notre population en train / test à hauteur de 80% / 20% pour les échantillons d'entraînement et de test respectivement. Puis on calcule le R² sur la population cible. Nous itérons 1500 fois ici pour estimer les R² propres à chaque tranche de population. Nous obtenons les résultats suivants :</p>
+<p style="text-align:justify;">Par bootstrap ont rÃ©-Ã©chantillonne notre population en train / test Ã  hauteur de 80% / 20% pour les Ã©chantillons d'entraÃ®nement et de test respectivement. Puis on calcule le RÂ² sur la population cible. Nous itÃ©rons 1500 fois ici pour estimer les RÂ² propres Ã  chaque tranche de population. Nous obtenons les rÃ©sultats suivants :</p>
 
 ```{r affiche_bootstraped, echo=FALSE}
 R2_hat
 ```
 
-<p style="text-align:justify;">Grâce à cette méthode, nous avons la certitude que nos variables explicatives sont très significatives. Tous les R² obtenus sur chaque tranche de population par bootstrap sur des échantillons de test sont largement au-dessus de 95% de significativité (98,6% pour le meilleur et 95% pour le pire). En étudiant les variables, nous avons remarqué que nous pouvions garder une trentaine de variables significatives. Mais toujours par principe de parcimonie, nous avons continué de les enlever une à une.</p>
+<p style="text-align:justify;">GrÃ¢ce Ã  cette mÃ©thode, nous avons la certitude que nos variables explicatives sont trÃ¨s significatives. Tous les RÂ² obtenus sur chaque tranche de population par bootstrap sur des Ã©chantillons de test sont largement au-dessus de 95% de significativitÃ© (98,6% pour le meilleur et 95% pour le pire). En Ã©tudiant les variables, nous avons remarquÃ© que nous pouvions garder une trentaine de variables significatives. Mais toujours par principe de parcimonie, nous avons continuÃ© de les enlever une Ã  une.</p>
 
-<p style="text-align:justify;">Pour la suite, chaque département a été associé à un point. Nous étudions la répartition des populations des années 1995, 2005 et 2015 pour voir l'évolution des populations.</p>
+<p style="text-align:justify;">Pour la suite, chaque dÃ©partement a Ã©tÃ© associÃ© Ã  un point. Nous Ã©tudions la rÃ©partition des populations des annÃ©es 1995, 2005 et 2015 pour voir l'Ã©volution des populations.</p>
 
 
 \newpage
-##Exploration des données
+##Exploration des donnÃ©es
 
 
 
-<p style="text-align:justify;">Pour la suite de l'étude, nous explorons les variables ainsi que les individus via des Analyses en Composantes Principales. Ci-dessous un tableau récapitulant le numéro attribué à chaque département pour la suite.</p>
+<p style="text-align:justify;">Pour la suite de l'Ã©tude, nous explorons les variables ainsi que les individus via des Analyses en Composantes Principales. Ci-dessous un tableau rÃ©capitulant le numÃ©ro attribuÃ© Ã  chaque dÃ©partement pour la suite.</p>
 ```{r correspondance, echo=FALSE, fig.height=12, fig.width=18}
 correspondance <- data.frame(unique(PREDICTEUR["Lieu"]))
-colnames(correspondance) <- c("Département")
+colnames(correspondance) <- c("DÃ©partement")
 rownames(correspondance) <- 1:nrow(correspondance)
 correspondance
 ```
@@ -854,15 +854,15 @@ acp3 <- PCA(DATA.acp.scaled , graph = FALSE, quanti.sup = c(1))
 
 ```{r ttACP1, echo=FALSE, fig.height=10, fig.width=9}
 par(mfrow=c(3,2))
-plot.PCA(acp1,title = "Répartition de la population française totale en 1995",choix = "ind")
-plot.PCA(acp1,title = "Répartition de la population française totale en 1995",choix = "var")
-plot.PCA(acp2,title = "Répartition de la population française totale en 2005",choix = "ind")
-plot.PCA(acp2,title = "Répartition de la population française totale en 2005",choix = "var")
-plot.PCA(acp3,title = "Répartition de la population française totale en 2015",choix = "ind")
-plot.PCA(acp3,title = "Répartition de la population française totale en 2015",choix = "var")
+plot.PCA(acp1,title = "RÃ©partition de la population franÃ§aise totale en 1995",choix = "ind")
+plot.PCA(acp1,title = "RÃ©partition de la population franÃ§aise totale en 1995",choix = "var")
+plot.PCA(acp2,title = "RÃ©partition de la population franÃ§aise totale en 2005",choix = "ind")
+plot.PCA(acp2,title = "RÃ©partition de la population franÃ§aise totale en 2005",choix = "var")
+plot.PCA(acp3,title = "RÃ©partition de la population franÃ§aise totale en 2015",choix = "ind")
+plot.PCA(acp3,title = "RÃ©partition de la population franÃ§aise totale en 2015",choix = "var")
 ```
 
-<p style="text-align:justify;">Sur la population totale on peut remarquer trois groupes de départements qui ont tendance à se 'détacher' du reste: ce sont les départements correspondants aux villes de : Paris (70), Dunkerque (67) / Marseille (13), Le Havre (80) (qui sont les zones de population les plus denses dans ces départements). L'axe principal correspond à la population totale qui va de pair avec le nombre d'ordures ménagères collectées et le nombre d'établissements de soin. L'axe 2 comporte des nuances avec les départements maritimes plutôt en haut du cercle de corrélation et ceux en bas avec un grand nombre d'établissements entreposant les déchets. L'axe 1 correspond à l'activité d'un département: les départements situés à droite auront une forte activité commerciale / industrielle. L'axe 2 lui correspond plutôt à la densité du département. Le tissu urbain discontinu est une zone construite périphérique qui peut chevaucher des zones rurales. Paris a très peu de tissu urbain discontinu car c'est un département urbanisé à 100%. Un département avec une forte densité aura tendance à avoir plus de centres de transport et d'entreposage, il sera situé en bas à droite. Un département plus large, moins dense en moyenne aura de plus grande zones peu construites. Paris et Le Havre sont opposés selon l'axe 2: La Seine Maritime et L'Ile de France s'opposent car L'Ile de France est un département-ville composé de Paris uniquement (très forte densité) alors que Le Havre est un grand port avec une forte activité également mais plus rural (la ville n'est pas ce qui compose en majorité la Seine Maritime).</p>
+<p style="text-align:justify;">Sur la population totale on peut remarquer trois groupes de dÃ©partements qui ont tendance Ã  se 'dÃ©tacher' du reste: ce sont les dÃ©partements correspondants aux villes de : Paris (70), Dunkerque (67) / Marseille (13), Le Havre (80) (qui sont les zones de population les plus denses dans ces dÃ©partements). L'axe principal correspond Ã  la population totale qui va de pair avec le nombre d'ordures mÃ©nagÃ¨res collectÃ©es et le nombre d'Ã©tablissements de soin. L'axe 2 comporte des nuances avec les dÃ©partements maritimes plutÃ´t en haut du cercle de corrÃ©lation et ceux en bas avec un grand nombre d'Ã©tablissements entreposant les dÃ©chets. L'axe 1 correspond Ã  l'activitÃ© d'un dÃ©partement: les dÃ©partements situÃ©s Ã  droite auront une forte activitÃ© commerciale / industrielle. L'axe 2 lui correspond plutÃ´t Ã  la densitÃ© du dÃ©partement. Le tissu urbain discontinu est une zone construite pÃ©riphÃ©rique qui peut chevaucher des zones rurales. Paris a trÃ¨s peu de tissu urbain discontinu car c'est un dÃ©partement urbanisÃ© Ã  100%. Un dÃ©partement avec une forte densitÃ© aura tendance Ã  avoir plus de centres de transport et d'entreposage, il sera situÃ© en bas Ã  droite. Un dÃ©partement plus large, moins dense en moyenne aura de plus grande zones peu construites. Paris et Le Havre sont opposÃ©s selon l'axe 2: La Seine Maritime et L'Ile de France s'opposent car L'Ile de France est un dÃ©partement-ville composÃ© de Paris uniquement (trÃ¨s forte densitÃ©) alors que Le Havre est un grand port avec une forte activitÃ© Ã©galement mais plus rural (la ville n'est pas ce qui compose en majoritÃ© la Seine Maritime).</p>
 ```{r ACPs2,echo = FALSE, fig.height=12, fig.width=18}
 population <- "Population_Feminine_0_19"
 var_pop <- as.character(variables.explicatives[[population]])
@@ -895,15 +895,15 @@ acp3 <- PCA(DATA.acp.scaled , graph = FALSE, quanti.sup = c(1))
 
 ```{r ttACP2, echo=FALSE, fig.height=10, fig.width=10}
 par(mfrow=c(3,2))
-plot.PCA(acp1,title = "Répartition de la population féminine de 0 à 19 ans en 1995",choix = "ind")
-plot.PCA(acp1,title = "Répartition de la population féminine de 0 à 19 ans en 1995",choix = "var")
-plot.PCA(acp2,title = "Répartition de la population féminine de 0 à 19 ans en 2005",choix = "ind")
-plot.PCA(acp2,title = "Répartition de la population féminine de 0 à 19 ans en 2005",choix = "var")
-plot.PCA(acp3,title = "Répartition de la population féminine de 0 à 19 ans en 2015",choix = "ind")
-plot.PCA(acp3,title = "Répartition de la population féminine de 0 à 19 ans en 2015",choix = "var")
+plot.PCA(acp1,title = "RÃ©partition de la population fÃ©minine de 0 Ã  19 ans en 1995",choix = "ind")
+plot.PCA(acp1,title = "RÃ©partition de la population fÃ©minine de 0 Ã  19 ans en 1995",choix = "var")
+plot.PCA(acp2,title = "RÃ©partition de la population fÃ©minine de 0 Ã  19 ans en 2005",choix = "ind")
+plot.PCA(acp2,title = "RÃ©partition de la population fÃ©minine de 0 Ã  19 ans en 2005",choix = "var")
+plot.PCA(acp3,title = "RÃ©partition de la population fÃ©minine de 0 Ã  19 ans en 2015",choix = "ind")
+plot.PCA(acp3,title = "RÃ©partition de la population fÃ©minine de 0 Ã  19 ans en 2015",choix = "var")
 ```
 
-<p style="text-align:justify;">Nous pouvons observer la même tendance avec la population féminine en bas âge : les départements avec des villes importantes ont tendance à se détacher. On remarque que en 1995, Paris ressemblait aux autres départements et que cette ville s'éloigne de plus en plus pour bien s'expliquer avec le revenu des ménages. L'axe 1 correspond également à l'activité et l'axe 2 à la densité du département (axes inversés pour les deux premières ACP sur la population féminine âgée de 0 à 19 ans). Mêmes conclusions qu'avec la population totale.</p>
+<p style="text-align:justify;">Nous pouvons observer la mÃªme tendance avec la population fÃ©minine en bas Ã¢ge : les dÃ©partements avec des villes importantes ont tendance Ã  se dÃ©tacher. On remarque que en 1995, Paris ressemblait aux autres dÃ©partements et que cette ville s'Ã©loigne de plus en plus pour bien s'expliquer avec le revenu des mÃ©nages. L'axe 1 correspond Ã©galement Ã  l'activitÃ© et l'axe 2 Ã  la densitÃ© du dÃ©partement (axes inversÃ©s pour les deux premiÃ¨res ACP sur la population fÃ©minine Ã¢gÃ©e de 0 Ã  19 ans). MÃªmes conclusions qu'avec la population totale.</p>
 
 ```{r ACPs3,echo = FALSE, fig.height=12, fig.width=18}
 population <- "Population_Masculine_40_59"
@@ -937,19 +937,19 @@ acp3 <- PCA(DATA.acp.scaled , graph = FALSE, quanti.sup = c(1))
 
 ```{r ttACP3, echo=FALSE, fig.height=10, fig.width=10}
 par(mfrow=c(3,2))
-plot.PCA(acp1,title = "Répartition de la population masculine de 40 à 59 ans en 1995",choix = "ind")
-plot.PCA(acp1,title = "Répartition de la population masculine de 40 à 59 ans en 1995",choix = "var")
-plot.PCA(acp2,title = "Répartition de la population masculine de 40 à 59 ans en 2005",choix = "ind")
-plot.PCA(acp2,title = "Répartition de la population masculine de 40 à 59 ans en 2005",choix = "var")
-plot.PCA(acp3,title = "Répartition de la population masculine de 40 à 59 ans en 2015",choix = "ind")
-plot.PCA(acp3,title = "Répartition de la population masculine de 40 à 59 ans en 2015",choix = "var")
+plot.PCA(acp1,title = "RÃ©partition de la population masculine de 40 Ã  59 ans en 1995",choix = "ind")
+plot.PCA(acp1,title = "RÃ©partition de la population masculine de 40 Ã  59 ans en 1995",choix = "var")
+plot.PCA(acp2,title = "RÃ©partition de la population masculine de 40 Ã  59 ans en 2005",choix = "ind")
+plot.PCA(acp2,title = "RÃ©partition de la population masculine de 40 Ã  59 ans en 2005",choix = "var")
+plot.PCA(acp3,title = "RÃ©partition de la population masculine de 40 Ã  59 ans en 2015",choix = "ind")
+plot.PCA(acp3,title = "RÃ©partition de la population masculine de 40 Ã  59 ans en 2015",choix = "var")
 ```
 
-<p style="text-align:justify;">Concernant les hommes âgés de 40 à 59 ans, de mêmes que la population totale et la population féminine en bas âge, ils sont bien expliqués par l'axe 1 qui est lié à l'activité du département. L'axe 2 reste toujours lié à la densité du département. On remarque que Paris se détache nettement du au grand nombre de ses établissements. Les hommes dans la tranche d'âge entre 40 et 59 ans sont des travailleurs actifs et cadres la plupart du temps, donc bien expliqués par Paris.</p>
+<p style="text-align:justify;">Concernant les hommes Ã¢gÃ©s de 40 Ã  59 ans, de mÃªmes que la population totale et la population fÃ©minine en bas Ã¢ge, ils sont bien expliquÃ©s par l'axe 1 qui est liÃ© Ã  l'activitÃ© du dÃ©partement. L'axe 2 reste toujours liÃ© Ã  la densitÃ© du dÃ©partement. On remarque que Paris se dÃ©tache nettement du au grand nombre de ses Ã©tablissements. Les hommes dans la tranche d'Ã¢ge entre 40 et 59 ans sont des travailleurs actifs et cadres la plupart du temps, donc bien expliquÃ©s par Paris.</p>
 
 
 
-<p style="text-align:justify;">Pour chacune des analyses factorielles réalisées, les axes construits représentent l'activité ainsi que la densité d'un département. On peut remarquer que les départements actifs côtiers s'opposent aux départements actifs qui ont un grand nombre d'établissements d'activité. Nous arrivons à estimer de manière très efficace le nombre de personnes dans un département, mais il faut transformer ces chiffres pour obtenir des répartitions de population. Le problème est que justement la population en nombre s'explique bien car elle est très corrélée à d'autres variables (plus il y a de personnes, plus la production d'ordures ménagères sera important, etc .). Nous allons désormais nous intéresser à la population par tranche d'âge en pourcentage pour estimer les proportions directement en supprimant les biais indiqués plus haut (les corrélations ordures ménagères / population par exemple) et voir si nos estimations sont toujours aussi performantes ou non. Pour ce faire nous allons construire des modèles logistiques établis sur des proportions pour estimer directement les proportions de la population et remarquer les nouveaux facteurs explicatifs potentiels.</p>
+<p style="text-align:justify;">Pour chacune des analyses factorielles rÃ©alisÃ©es, les axes construits reprÃ©sentent l'activitÃ© ainsi que la densitÃ© d'un dÃ©partement. On peut remarquer que les dÃ©partements actifs cÃ´tiers s'opposent aux dÃ©partements actifs qui ont un grand nombre d'Ã©tablissements d'activitÃ©. Nous arrivons Ã  estimer de maniÃ¨re trÃ¨s efficace le nombre de personnes dans un dÃ©partement, mais il faut transformer ces chiffres pour obtenir des rÃ©partitions de population. Le problÃ¨me est que justement la population en nombre s'explique bien car elle est trÃ¨s corrÃ©lÃ©e Ã  d'autres variables (plus il y a de personnes, plus la production d'ordures mÃ©nagÃ¨res sera important, etc .). Nous allons dÃ©sormais nous intÃ©resser Ã  la population par tranche d'Ã¢ge en pourcentage pour estimer les proportions directement en supprimant les biais indiquÃ©s plus haut (les corrÃ©lations ordures mÃ©nagÃ¨res / population par exemple) et voir si nos estimations sont toujours aussi performantes ou non. Pour ce faire nous allons construire des modÃ¨les logistiques Ã©tablis sur des proportions pour estimer directement les proportions de la population et remarquer les nouveaux facteurs explicatifs potentiels.</p>
 
 ```{r importation_3, echo=FALSE, fig.height=12, fig.width=18}
 PREDICTRICE3 <- PREDICTRICE2[,c("Population_Feminine_0_19",
@@ -966,11 +966,11 @@ PREDICTRICE3 <- PREDICTRICE2[,c("Population_Feminine_0_19",
 
 
 \newpage
-##Recherche des variables explicatives, modèle logistique
+##Recherche des variables explicatives, modÃ¨le logistique
 
 
 
-<p style="text-align:justify;">Nous recherchons pour chaque tranche de population les variables les plus significatives. Pour ce faire, nous itérons les régressions linéaires en enlevant à chaque tour de boucle la variable avec la p-value la plus élevée. Nous nous arrêtons à au moins 4 variables et au plus 10 variables avec une p-value inférieure à E-50.</p>
+<p style="text-align:justify;">Nous recherchons pour chaque tranche de population les variables les plus significatives. Pour ce faire, nous itÃ©rons les rÃ©gressions linÃ©aires en enlevant Ã  chaque tour de boucle la variable avec la p-value la plus Ã©levÃ©e. Nous nous arrÃªtons Ã  au moins 4 variables et au plus 10 variables avec une p-value infÃ©rieure Ã  E-50.</p>
 
 ```{r variableS.explicatives_log, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE, fig.height=12, fig.width=18}
 variables.explicatives_log <- list()
@@ -984,7 +984,7 @@ for(variable in list_var){
   DATA_log <- cbind(PREDICTRICE2[variable],PREDICTRICE2[c("Population_Francaise_Totale")],PREDICTEUR2)
   
   "
-  on veut sélectionner les variables le splus significative spour distinguer les individus entre eux.
+  on veut sÃ©lectionner les variables le splus significative spour distinguer les individus entre eux.
   Les plus significatives au sens de la population totale
   "
   
@@ -1009,11 +1009,11 @@ for(variable in list_var){
     #attributes(sum_modelk)
     #sum_modelk$null.deviance
     
-    #RR <- c(RR,sum_modelk$) # on récupère le R2
+    #RR <- c(RR,sum_modelk$) # on rÃ©cupÃ¨re le R2
     sum_modelk <- as.data.frame(sum_modelk$coefficients)
     sum_modelk <- sum_modelk[order(sum_modelk$`Pr(>|z|)`),]
     sum_modelk <- sum_modelk[!rownames(sum_modelk) %in% "(Intercept)",]
-    # VV <- c(VV,nrow(sum_modelk)) # on récupère le nombre de variables
+    # VV <- c(VV,nrow(sum_modelk)) # on rÃ©cupÃ¨re le nombre de variables
   }
   n <- names(as.data.frame(t(sum_modelk)))
   variables.explicatives_log[variable] <- as.data.frame(n)
@@ -1085,14 +1085,14 @@ for(tranche_age in 1:length(variables.explicatives_log)){
 
 }
 R2_hat_log <- data.frame(cbind(names(variables.explicatives_log),R2_hat_log))
-colnames(R2_hat_log) <- c("Tranche de population","R2 ajusté")
+colnames(R2_hat_log) <- c("Tranche de population","R2 ajustÃ©")
 ```
 
 ```{r affiche_bootstraped_log, echo=FALSE, fig.height=12, fig.width=18}
 R2_hat_log
 ```
 
-<p style="text-align:justify;">En regardant les R² ajustés, on se rend compte que les modèles de régressions logistiques sur proportions ne sont pas adaptés au problème, les R² sont en effet révélateurs d'un modèle très perfectible. Ajuster nos prévisions sur ces modèles donnent une prévision qui est pire que la moyenne. Voici un exemple de prévision d'un modèle logistique sur proportions:</p>
+<p style="text-align:justify;">En regardant les RÂ² ajustÃ©s, on se rend compte que les modÃ¨les de rÃ©gressions logistiques sur proportions ne sont pas adaptÃ©s au problÃ¨me, les RÂ² sont en effet rÃ©vÃ©lateurs d'un modÃ¨le trÃ¨s perfectible. Ajuster nos prÃ©visions sur ces modÃ¨les donnent une prÃ©vision qui est pire que la moyenne. Voici un exemple de prÃ©vision d'un modÃ¨le logistique sur proportions:</p>
 
 ```{r exemple_log, echo= FALSE, fig.height=12, fig.width=18}
 population <- "Population_Masculine_40_59"
@@ -1117,19 +1117,19 @@ prevision <- c(logistique(x_test,BB))
 
 ts.plot(y_test,col="forestgreen",ylim=c(0.1,0.2),xlab="index",ylab="proportion",type="p")
 lines(prevision,col="tomato",type="p")
-legend("topleft",c("réel","prévision"),pch=c(1,1),col=c("forestgreen","tomato"))
-title("proportion de la population masculine agée de 60 à 74 ans")
+legend("topleft",c("rÃ©el","prÃ©vision"),pch=c(1,1),col=c("forestgreen","tomato"))
+title("proportion de la population masculine agÃ©e de 60 Ã  74 ans")
 
 ```
 
-<p style="text-align:justify;">Nous voyons bien que les prévisions sont très proches des proportions réelles. Nous conservons néanmoins le modèle pour pouvoir le tester dans la partie finale de l'étude. Gardons quand même à l'esprit la faible significativité des modèles logistiques.</p>
+<p style="text-align:justify;">Nous voyons bien que les prÃ©visions sont trÃ¨s proches des proportions rÃ©elles. Nous conservons nÃ©anmoins le modÃ¨le pour pouvoir le tester dans la partie finale de l'Ã©tude. Gardons quand mÃªme Ã  l'esprit la faible significativitÃ© des modÃ¨les logistiques.</p>
 
 
 
 \newpage
-##Test du modèle de regression linéaire multiple :
+##Test du modÃ¨le de regression linÃ©aire multiple :
 
-<p style="text-align:justify;">Nous allons commencer par séparer le jeu de données en un jeu de test et un jeu d'entrainement. Nous allons utiliser les années 2013 à 2015 en test. L'idée serait de calculer un modèle pour chaque année à partir de toutes les informations antérieures dont on dispose. Après avoir séparé le jeu de données, nous allons entraîner un modèle sur le jeu d'entraînement et estimer nos années de test. Ensuite, nous calculerons les proportions.</p>
+<p style="text-align:justify;">Nous allons commencer par sÃ©parer le jeu de donnÃ©es en un jeu de test et un jeu d'entrainement. Nous allons utiliser les annÃ©es 2013 Ã  2015 en test. L'idÃ©e serait de calculer un modÃ¨le pour chaque annÃ©e Ã  partir de toutes les informations antÃ©rieures dont on dispose. AprÃ¨s avoir sÃ©parÃ© le jeu de donnÃ©es, nous allons entraÃ®ner un modÃ¨le sur le jeu d'entraÃ®nement et estimer nos annÃ©es de test. Ensuite, nous calculerons les proportions.</p>
 
 ```{r creer Data-Frame, echo=FALSE, fig.height=12, fig.width=18}
 DFtrain <- list()
@@ -1178,17 +1178,17 @@ for (annee in annees) {
 # summary(modelt[[paste(variableReponse, as.character(annee), sep = "_")]])
 # predict(modelt[[paste(variableReponse, as.character(annee), sep = "_")]], DFtest[[nom]])
 
-plot(DFtest[["Population_Feminine_0_19_2015"]]$Population_Feminine_0_19, xlab = "département", ylab = "effectifs", col = "forestgreen")
+plot(DFtest[["Population_Feminine_0_19_2015"]]$Population_Feminine_0_19, xlab = "dÃ©partement", ylab = "effectifs", col = "forestgreen")
 points(DFtest[["Population_Feminine_0_19_2015"]]$prediction, col = "red")
-title( "Population féminine de 0 à 19 ans")
-legend("topleft", pch = 1, col = c("forestgreen", "red"), c("réel", "prévu"))
+title( "Population fÃ©minine de 0 Ã  19 ans")
+legend("topleft", pch = 1, col = c("forestgreen", "red"), c("rÃ©el", "prÃ©vu"))
 
 
 ```
 
-###Calcul du R² total:
+###Calcul du RÂ² total:
 
-<p style="text-align:justify;">Comme on a plusieurs variables à expliquer, on fait la somme sur non plus une variable mais la totalité de nos effectifs estimées. On obtient donc le R² du modèle complet. Le R² calculé sur l'année 2015 grâce à la régression linéaire multiple est de 0,953. On a donc un modèle assez efficace permettant, à partir des caractéristiques d'occupation du territoire, d'obtenir les effectifs de la population française par tranche d'âge très proches de la réalité.</p>
+<p style="text-align:justify;">Comme on a plusieurs variables Ã  expliquer, on fait la somme sur non plus une variable mais la totalitÃ© de nos effectifs estimÃ©es. On obtient donc le RÂ² du modÃ¨le complet. Le RÂ² calculÃ© sur l'annÃ©e 2015 grÃ¢ce Ã  la rÃ©gression linÃ©aire multiple est de 0,953. On a donc un modÃ¨le assez efficace permettant, Ã  partir des caractÃ©ristiques d'occupation du territoire, d'obtenir les effectifs de la population franÃ§aise par tranche d'Ã¢ge trÃ¨s proches de la rÃ©alitÃ©.</p>
 
 ```{r, echo=FALSE, fig.height=12, fig.width=18}
 moyenne <- list()
@@ -1222,15 +1222,15 @@ moyenne[[as.character(annee)]] <- colMeans(DF_repartition[[as.character(annee)]]
 
 ###Calcul des proportions :
 
-<p style="text-align:justify;">L'objectif final était toutefois de calculer les proportions de chaque tranche d'âge et non pas la quantité d'individus par tranche d'âge. On calcule donc pour chaque tranche la proportion d'individus par rapport à la population totale du département. Cette population est la somme de tous les effectifs estimés.</p>
+<p style="text-align:justify;">L'objectif final Ã©tait toutefois de calculer les proportions de chaque tranche d'Ã¢ge et non pas la quantitÃ© d'individus par tranche d'Ã¢ge. On calcule donc pour chaque tranche la proportion d'individus par rapport Ã  la population totale du dÃ©partement. Cette population est la somme de tous les effectifs estimÃ©s.</p>
 
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 
 for (annee in annees) {
-  #Prévisions
+  #PrÃ©visions
   DF_repartition[[as.character(annee)]][c(2,4,6,8,10,14,16,18,20,22)] <- DF_repartition[[as.character(annee)]][c(2,4,6,8,10,14,16,18,20,22)]/DF_repartition[[as.character(annee)]]$previsionTotale
-  #Réel
+  #RÃ©el
     DF_repartition[[as.character(annee)]][c(1,3,5,7,9,13,15,17,19,21)] <- DF_repartition[[as.character(annee)]][c(1,3,5,7,9,13,15,17,19,21)]/DF_repartition[[as.character(annee)]]$Population_Francaise_Totale
     DF_repartition[[as.character(annee)]]$previsionTotale<-1
     DF_repartition[[as.character(annee)]]$Population_Francaise_Totale<-1
@@ -1241,9 +1241,9 @@ head(DF_TMP[!(DF_TMP %in% c("Population_Francaise_Totale","prediction_Population
 ```
 
 
-###Calcul du R² pour les proportions
+###Calcul du RÂ² pour les proportions
 
-<p style="text-align:justify;">On calcule donc le R² pour les proportions calculées précédemment. On obtient ainsi un R² négatif, nous signifiant un modèle pire que la moyenne des proportions sur le territoire. Le modèle de régression linéaire multiple n'est donc pas efficace pour notre problème.</p>
+<p style="text-align:justify;">On calcule donc le RÂ² pour les proportions calculÃ©es prÃ©cÃ©demment. On obtient ainsi un RÂ² nÃ©gatif, nous signifiant un modÃ¨le pire que la moyenne des proportions sur le territoire. Le modÃ¨le de rÃ©gression linÃ©aire multiple n'est donc pas efficace pour notre problÃ¨me.</p>
 
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
@@ -1278,9 +1278,9 @@ print(R2[[as.character(annee)]])
 
 
 \newpage
-##Test du modèle de regression logistique :
+##Test du modÃ¨le de regression logistique :
 
-<p style="text-align:justify;">Nous allons exécuter la même procédure que pour les modèles de régression linéaire multiple afin de tester l'efficacité des modèle logistique sur nos données.</p>
+<p style="text-align:justify;">Nous allons exÃ©cuter la mÃªme procÃ©dure que pour les modÃ¨les de rÃ©gression linÃ©aire multiple afin de tester l'efficacitÃ© des modÃ¨le logistique sur nos donnÃ©es.</p>
 ```{r creer Data-Frame 2, echo=FALSE, fig.height=12, fig.width=18}
 DFtrainLog <- list()
 DFtestLog <- list()
@@ -1351,32 +1351,32 @@ for (annee in annees) {
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 
 for (annee in annees) {
-  #Prévisions
+  #PrÃ©visions
   DF_repartition_Log[[as.character(annee)]][c(2,4,6,8,10,12,14,16,18,20)] <- DF_repartition_Log[[as.character(annee)]][c(2,4,6,8,10,12,14,16,18,20)]/DF_repartition_Log[[as.character(annee)]]$previsionTotale
-  #Réel
+  #RÃ©el
     DF_repartition_Log[[as.character(annee)]][c(1,3,5,7,9,11,13,15,17,19)] <- DF_repartition_Log[[as.character(annee)]][c(1,3,5,7,9,11,13,15,17,19)]/DF_repartition_Log[[as.character(annee)]]$popTotaleLog
     DF_repartition_Log[[as.character(annee)]]$previsionTotale<-1
     DF_repartition_Log[[as.character(annee)]]$popTotaleLog<-1
 }
 
-plot(DF_repartition_Log[["2013"]]$Population_Feminine_0_19, xlab = "département", ylab = "effectifs", col = "forestgreen")
+plot(DF_repartition_Log[["2013"]]$Population_Feminine_0_19, xlab = "dÃ©partement", ylab = "effectifs", col = "forestgreen")
 points(DF_repartition_Log[["2013"]]$prediction_Population_Feminine_0_19, col = "red")
-title( "Population féminine de 0 à 19 ans")
-legend("topleft", pch = 1, col = c("forestgreen", "red"), c("réel", "prévu"))
+title( "Population fÃ©minine de 0 Ã  19 ans")
+legend("topleft", pch = 1, col = c("forestgreen", "red"), c("rÃ©el", "prÃ©vu"))
 ```
 
 
 ###Calcul des proportions :
 
-<p style="text-align:justify;">Même si l'on estime directement les proportions dans ce modèle, il est nécessaire de normaliser les proportions pour qu'elles soient égales à 1.</p>
+<p style="text-align:justify;">MÃªme si l'on estime directement les proportions dans ce modÃ¨le, il est nÃ©cessaire de normaliser les proportions pour qu'elles soient Ã©gales Ã  1.</p>
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 head(DF_repartition_Log[["2015"]])
 ```
 
-###Calcul du R² total:
+###Calcul du RÂ² total:
 
-<p style="text-align:justify;">Encore une fois, le R² n'est pas impressionnant. On obtient ici un R² de 0,03. Cependant, on gagne en efficacité par rapport à la régression linéaire multiple et le modèle reste meilleur que la moyenne.</p>
+<p style="text-align:justify;">Encore une fois, le RÂ² n'est pas impressionnant. On obtient ici un RÂ² de 0,03. Cependant, on gagne en efficacitÃ© par rapport Ã  la rÃ©gression linÃ©aire multiple et le modÃ¨le reste meilleur que la moyenne.</p>
 
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
@@ -1408,7 +1408,7 @@ print(R2Log[[as.character(2015)]])
 
 
 \newpage
-#Test du modèle linéaire avec 20 variables
+#Test du modÃ¨le linÃ©aire avec 20 variables
 
 ```{r variableS.explicatives2, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 variables.explicatives <- list()
@@ -1419,7 +1419,7 @@ for(variable in list_var){
   # VV <- c()
   
   "
-  on veut sélectionner les variables le splus significative spour distinguer les individus entre eux.
+  on veut sÃ©lectionner les variables le splus significative spour distinguer les individus entre eux.
   Les plus significatives au sens de la population totale
   "
   DATA <- cbind(PREDICTRICE2[variable],PREDICTEUR2)
@@ -1442,11 +1442,11 @@ for(variable in list_var){
                           paste(n[!n %in% "(Intercept)"], collapse = " + ")))
     modelk <- lm(f,data=DATA)
     sum_modelk <- summary(modelk)
-    # RR <- c(RR,modelk$adj.r.squared) # on récupère le R2
+    # RR <- c(RR,modelk$adj.r.squared) # on rÃ©cupÃ¨re le R2
     sum_modelk <- as.data.frame(sum_modelk$coefficients)
     sum_modelk <- sum_modelk[order(sum_modelk$`Pr(>|t|)`),]
     sum_modelk <- sum_modelk[!rownames(sum_modelk) %in% "(Intercept)",]
-    # VV <- c(VV,nrow(sum_modelk)) # on récupère le nombre de variables
+    # VV <- c(VV,nrow(sum_modelk)) # on rÃ©cupÃ¨re le nombre de variables
   }
   n <- names(as.data.frame(t(sum_modelk)))
   variables.explicatives[variable] <- as.data.frame(n)
@@ -1486,10 +1486,10 @@ for(tranche_age in 1:length(variables.explicatives)){
 
 }
 R2_hat <- data.frame(cbind(names(variables.explicatives),R2_hat))
-colnames(R2_hat) <- c("Tranche de population","R2 ajusté")
+colnames(R2_hat) <- c("Tranche de population","R2 ajustÃ©")
 ```
 
-<p style="text-align:justify;">Le R² obtenu par bootstrap 80% / 20% sur le modèle linéaire.</p>
+<p style="text-align:justify;">Le RÂ² obtenu par bootstrap 80% / 20% sur le modÃ¨le linÃ©aire.</p>
 ```{r affiche_bootstraped2, echo=FALSE}
 R2_hat
 ```
@@ -1542,19 +1542,19 @@ for (annee in annees) {
 # summary(modelt[[paste(variableReponse, as.character(annee), sep = "_")]])
 # predict(modelt[[paste(variableReponse, as.character(annee), sep = "_")]], DFtest[[nom]])
 
-plot(DFtest[["Population_Feminine_0_19_2015"]]$Population_Feminine_0_19, xlab = "département", ylab = "effectifs", col = "forestgreen")
+plot(DFtest[["Population_Feminine_0_19_2015"]]$Population_Feminine_0_19, xlab = "dÃ©partement", ylab = "effectifs", col = "forestgreen")
 points(DFtest[["Population_Feminine_0_19_2015"]]$prediction, col = "red")
-title( "Population féminine de 0 à 19 ans")
-legend("topleft", pch = 1, col = c("forestgreen", "red"), c("réel", "prévu"))
+title( "Population fÃ©minine de 0 Ã  19 ans")
+legend("topleft", pch = 1, col = c("forestgreen", "red"), c("rÃ©el", "prÃ©vu"))
 
 
 ```
 
-<p style="text-align:justify;">La prévision linéaire est réellement de qualité avec le modèle sur les effectifs</p>
+<p style="text-align:justify;">La prÃ©vision linÃ©aire est rÃ©ellement de qualitÃ© avec le modÃ¨le sur les effectifs</p>
 
-###Calcul du R² total:
+###Calcul du RÂ² total:
 
-<p style="text-align:justify;">Le R² total du modèle linéaire est encore meilleur losque le nombre de variable augmente.</p>
+<p style="text-align:justify;">Le RÂ² total du modÃ¨le linÃ©aire est encore meilleur losque le nombre de variable augmente.</p>
 
 ```{r, echo=FALSE, fig.height=12, fig.width=18}
 moyenne <- list()
@@ -1588,15 +1588,15 @@ moyenne[[as.character(annee)]] <- colMeans(DF_repartition[[as.character(annee)]]
 
 ###Calcul des proportions :
 
-<p style="text-align:justify;">Même les proportions semblent plutôt cohérentes, mis à part quelques écarts.</p>
+<p style="text-align:justify;">MÃªme les proportions semblent plutÃ´t cohÃ©rentes, mis Ã  part quelques Ã©carts.</p>
 
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 
 for (annee in annees) {
-  #Prévisions
+  #PrÃ©visions
   DF_repartition[[as.character(annee)]][c(2,4,6,8,10,14,16,18,20,22)] <- DF_repartition[[as.character(annee)]][c(2,4,6,8,10,14,16,18,20,22)]/DF_repartition[[as.character(annee)]]$previsionTotale
-  #Réel
+  #RÃ©el
     DF_repartition[[as.character(annee)]][c(1,3,5,7,9,13,15,17,19,21)] <- DF_repartition[[as.character(annee)]][c(1,3,5,7,9,13,15,17,19,21)]/DF_repartition[[as.character(annee)]]$Population_Francaise_Totale
     DF_repartition[[as.character(annee)]]$previsionTotale<-1
     DF_repartition[[as.character(annee)]]$Population_Francaise_Totale<-1
@@ -1607,9 +1607,9 @@ head(DF_TMP[!(DF_TMP %in% c("Population_Francaise_Totale","prediction_Population
 ```
 
 
-###Calcul du R² pour les proportions
+###Calcul du RÂ² pour les proportions
 
-<p style="text-align:justify;">Mais le R² sur les proportions reste quand même bien pire que la moyenne.</p>
+<p style="text-align:justify;">Mais le RÂ² sur les proportions reste quand mÃªme bien pire que la moyenne.</p>
 
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
@@ -1646,7 +1646,7 @@ print(R2[[as.character(annee)]])
 
 
 \newpage
-#Test du modèle logistique avec 20 variables
+#Test du modÃ¨le logistique avec 20 variables
 
 ```{r variableS.explicatives_log2, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE, fig.height=12, fig.width=18}
 variables.explicatives_log <- list()
@@ -1660,7 +1660,7 @@ for(variable in list_var){
   DATA_log <- cbind(PREDICTRICE2[variable],PREDICTRICE2[c("Population_Francaise_Totale")],PREDICTEUR2)
   
   "
-  on veut sélectionner les variables le splus significative spour distinguer les individus entre eux.
+  on veut sÃ©lectionner les variables le splus significative spour distinguer les individus entre eux.
   Les plus significatives au sens de la population totale
   "
   
@@ -1685,11 +1685,11 @@ for(variable in list_var){
     #attributes(sum_modelk)
     #sum_modelk$null.deviance
     
-    #RR <- c(RR,sum_modelk$) # on récupère le R2
+    #RR <- c(RR,sum_modelk$) # on rÃ©cupÃ¨re le R2
     sum_modelk <- as.data.frame(sum_modelk$coefficients)
     sum_modelk <- sum_modelk[order(sum_modelk$`Pr(>|z|)`),]
     sum_modelk <- sum_modelk[!rownames(sum_modelk) %in% "(Intercept)",]
-    # VV <- c(VV,nrow(sum_modelk)) # on récupère le nombre de variables
+    # VV <- c(VV,nrow(sum_modelk)) # on rÃ©cupÃ¨re le nombre de variables
   }
   n <- names(as.data.frame(t(sum_modelk)))
   variables.explicatives_log[variable] <- as.data.frame(n)
@@ -1736,10 +1736,10 @@ for(tranche_age in 1:length(variables.explicatives_log)){
 
 }
 R2_hat_log <- data.frame(cbind(names(variables.explicatives_log),R2_hat_log))
-colnames(R2_hat_log) <- c("Tranche de population","R2 ajusté")
+colnames(R2_hat_log) <- c("Tranche de population","R2 ajustÃ©")
 ```
 
-<p style="text-align:justify;">Le R² obtenu par bootstrap 80% / 20% sur le modèle logistique.</p>
+<p style="text-align:justify;">Le RÂ² obtenu par bootstrap 80% / 20% sur le modÃ¨le logistique.</p>
 ```{r affiche_bootstraped_log2, echo=FALSE, fig.height=12, fig.width=18}
 R2_hat_log
 ```
@@ -1814,33 +1814,33 @@ for (annee in annees) {
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 
 for (annee in annees) {
-  #Prévisions
+  #PrÃ©visions
   DF_repartition_Log[[as.character(annee)]][c(2,4,6,8,10,12,14,16,18,20)] <- DF_repartition_Log[[as.character(annee)]][c(2,4,6,8,10,12,14,16,18,20)]/DF_repartition_Log[[as.character(annee)]]$previsionTotale
-  #Réel
+  #RÃ©el
     DF_repartition_Log[[as.character(annee)]][c(1,3,5,7,9,11,13,15,17,19)] <- DF_repartition_Log[[as.character(annee)]][c(1,3,5,7,9,11,13,15,17,19)]/DF_repartition_Log[[as.character(annee)]]$popTotaleLog
     DF_repartition_Log[[as.character(annee)]]$previsionTotale<-1
     DF_repartition_Log[[as.character(annee)]]$popTotaleLog<-1
 }
 
-plot(DF_repartition_Log[["2013"]]$Population_Feminine_0_19, xlab = "département", ylab = "proportion", col = "forestgreen")
+plot(DF_repartition_Log[["2013"]]$Population_Feminine_0_19, xlab = "dÃ©partement", ylab = "proportion", col = "forestgreen")
 points(DF_repartition_Log[["2013"]]$prediction_Population_Feminine_0_19, col = "red")
-title( "Population féminine de 0 à 19 ans")
-legend("topleft", pch = 1, col = c("forestgreen", "red"), c("réel", "prévu"))
+title( "Population fÃ©minine de 0 Ã  19 ans")
+legend("topleft", pch = 1, col = c("forestgreen", "red"), c("rÃ©el", "prÃ©vu"))
 ```
-<p style="text-align:justify;">De même que le modèle linéaire, le modèle logistique semble performant, voire plus.</p>
+<p style="text-align:justify;">De mÃªme que le modÃ¨le linÃ©aire, le modÃ¨le logistique semble performant, voire plus.</p>
 
 
 ###Calcul des proportions :
 
-<p style="text-align:justify;">Les proportions estimées avec le modèle logistique semblent bien plus proches des valeurs réelles que les estimations du modèle linéaire.</p>
+<p style="text-align:justify;">Les proportions estimÃ©es avec le modÃ¨le logistique semblent bien plus proches des valeurs rÃ©elles que les estimations du modÃ¨le linÃ©aire.</p>
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
 head(DF_repartition_Log[["2015"]])
 ```
 
-###Calcul du R² total:
+###Calcul du RÂ² total:
 
-<p style="text-align:justify;">De nouveau le R² n'est pas impressionnant. C'est néanmoins le meilleur R² que nous ayons pu obtenir sur un modèle avec proportions. Nous pouvons retenir que plus nous rajoutons de variables, plus les prévisions seront de qualité. Nous avons retenu 20 variables, au vu des 1974 individus nous sommes tranquiles pour ne pas tomber dans un cas de surapprentissage.</p>
+<p style="text-align:justify;">De nouveau le RÂ² n'est pas impressionnant. C'est nÃ©anmoins le meilleur RÂ² que nous ayons pu obtenir sur un modÃ¨le avec proportions. Nous pouvons retenir que plus nous rajoutons de variables, plus les prÃ©visions seront de qualitÃ©. Nous avons retenu 20 variables, au vu des 1974 individus nous sommes tranquiles pour ne pas tomber dans un cas de surapprentissage.</p>
 
 
 ```{r, echo = FALSE, fig.height=12, fig.width=18}
@@ -1868,4 +1868,56 @@ for (annee in annees) {
 
 print(R2Log[[as.character(2015)]])
 
+```
+
+```{r SVM, echo= FALSE, fig.height=12, fig.width=18}
+
+List.variable <- colnames(PREDICTRICE3)
+N<-10 # nombre de variables Ã  garder
+
+R2.svm <- NULL
+List.var.svm <- list()
+# population = "Population_Feminine_0_19"
+for(population in List.variable){
+  
+  XX <- as.matrix(PREDICTEUR2)
+  YY <- as.matrix(PREDICTRICE3[population])
+  
+  
+  
+  cv1.net <- cv.glmnet(XX,YY, alpha = 1)
+  cv1.net.fit <- cv1.net$glmnet.fit
+  nlambda <- length(cv1.net.fit$df[cv1.net.fit$df < N])+1
+  ll <- cv1.net.fit$lambda[nlambda]
+  
+  model.net <- glmnet(XX, YY, lambda = ll, alpha = 1)
+  model.net.coefs <- coef(model.net)
+  most.sign <- rownames(model.net.coefs)[which(model.net.coefs!=0)]
+  most.sign <- most.sign[!most.sign %in% "(Intercept)"]
+  
+  DATA <- cbind(PREDICTRICE3[population],PREDICTEUR2[most.sign])
+  f <- as.formula(paste(population,"~",paste(most.sign,collapse="+")))
+  
+  train_index <- sample(1:nrow(DATA), round(0.8*nrow(DATA)))
+  train <- as.data.frame(DATA[train_index,])
+  test <- as.data.frame(DATA[-train_index,])
+  
+  modelk <- svm(f,data=DATA,type="eps-regression",cost=100)
+  prevision <- predict(modelk,test)
+  #ts.plot(test$Population_Francaise_Totale,col="tomato")
+  #lines(prevision,col="forestgreen")
+  
+  new_R2 <- 1-sum((predict(modelk,test)-test[[population]])**2)/sum((mean(test[[population]])-test[[population]])**2)
+  R2.svm <- cbind(R2.svm,new_R2)
+  List.var.svm[[population]] <- most.sign
+}
+
+colnames(R2.svm) <- colnames(PREDICTRICE3)
+R2.svm <- t(R2.svm)
+colnames(R2.svm) <- "R2_test"
+```
+
+```{r}
+List.var.svm
+R2.svm
 ```

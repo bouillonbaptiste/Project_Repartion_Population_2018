@@ -1,4 +1,4 @@
-# Projet_Repartion_Population_2018
+# Projet Repartion Population (2017/2018)
 Un projet qui concerne la répartition de la population en France 
 
 Contient le code principal servant à la remise en forme des données ainsi qu'au traitement de celles-ci.
